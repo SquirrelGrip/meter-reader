@@ -20,7 +20,7 @@ Invalid date format occurred at line 3
 # What is the rationale for the technologies you have decided to use?
 There a number of way to solve this problem. 
 
-Language Choice: Java
+### Language Choice: Java
 Java is a well known language and it was chosen over others mainly because of its Object Oriented nature. While my first choice would be Kotlin, also a OO language, I did’t choose it as I made an assumption that the reviewer of this code may not be familiar with it and more likely that Java is more understood.
 
 Other choices I considered were JavaScript, but because it was dealing with files and databases, JavaScript can be a little complicated dealing with those and there are many different thoughts on how this is best achieved using JavaScript.
