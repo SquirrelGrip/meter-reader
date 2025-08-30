@@ -25,6 +25,12 @@ repositories {
     mavenLocal()
 }
 
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
+}
+
 tasks.build {
     dependsOn(tasks.shadowJar)
 }

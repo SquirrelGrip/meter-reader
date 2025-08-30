@@ -9,4 +9,6 @@ public interface DatabaseSession extends AutoCloseable {
 
     void save(MeterReading meterReading);
     Long count();
+
+    boolean isTransactionActive();
 }

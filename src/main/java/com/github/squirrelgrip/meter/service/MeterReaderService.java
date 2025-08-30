@@ -4,6 +4,7 @@ import com.github.squirrelgrip.meter.database.DatabaseSession;
 import com.github.squirrelgrip.meter.database.DatabaseSessionFactory;
 import com.github.squirrelgrip.meter.domain.ContextKey;
 import com.github.squirrelgrip.meter.exception.MeterReaderException;
+import com.github.squirrelgrip.meter.exception.TransactionActiveException;
 import com.github.squirrelgrip.meter.exception.UnknownException;
 
 import java.io.*;
@@ -58,6 +59,9 @@ public class MeterReaderService {
                 }
                 context.put(LINE_NUMBER, lineCount);
                 lineHandler.processLine(line, context);
+            }
+            if (session.isTransactionActive()) {
+                throw new TransactionActiveException(context);
             }
         } catch (Exception e) {
             processException(e, context);

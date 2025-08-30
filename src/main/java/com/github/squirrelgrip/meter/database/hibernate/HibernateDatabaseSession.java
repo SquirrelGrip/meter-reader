@@ -28,6 +28,9 @@ public class HibernateDatabaseSession implements DatabaseSession {
 
     @Override
     public void close() {
+        if (session.isOpen() && session.getTransaction().isActive()) {
+            rollback();
+        }
         session.close();
     }
 
@@ -38,6 +41,11 @@ public class HibernateDatabaseSession implements DatabaseSession {
 
     @Override
     public Long count() {
-        return (Long) session.createQuery("select count(*) from MeterReading").uniqueResult();
+        return session.createQuery("select count(*) from MeterReading", Long.class).uniqueResult();
+    }
+
+    @Override
+    public boolean isTransactionActive() {
+        return session.getTransaction().isActive();
     }
 }

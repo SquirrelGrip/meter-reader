@@ -21,6 +21,7 @@ import java.util.Map;
 
 import static com.github.squirrelgrip.meter.domain.ContextKey.FILE_NAME;
 import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.Mockito.*;
 import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.when;
 
@@ -48,14 +49,32 @@ public class MeterReaderServiceTest {
     }
 
     @Test
-    void process() {
+    void process() throws Exception {
+        when(databaseSession.isTransactionActive()).thenReturn(false);
         InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("sample.txt");
 
         Map<ContextKey, Object> context = new HashMap<>();
         context.put(FILE_NAME, "sample.txt");
         testSubject.process(inputStream, context);
 
-        Mockito.verify(lineHandler, Mockito.times(14)).processLine(anyString(), eq(context));
+        verify(lineHandler, times(14)).processLine(anyString(), eq(context));
+        verify(databaseSession).close();
+        verifyNoMoreInteractions(databaseSession);
+    }
+
+    @Test
+    void process_Missing900Record() throws Exception {
+        when(databaseSession.isTransactionActive()).thenReturn(true);
+        InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("missing900.txt");
+
+        Map<ContextKey, Object> context = new HashMap<>();
+        context.put(FILE_NAME, "sample.txt");
+        testSubject.process(inputStream, context);
+
+        verify(lineHandler, times(13)).processLine(anyString(), eq(context));
+        verify(databaseSession).close();
+        verify(databaseSession).isTransactionActive();
+        verifyNoMoreInteractions(databaseSession);
     }
 
     @Test
@@ -85,7 +104,7 @@ public class MeterReaderServiceTest {
         testSubject.process(mockBufferedReader, metaData);
 
         verifyNoInteractions(lineHandler);
-        Mockito.verify(errorHandler).handleException(isA(UnknownException.class));
+        verify(errorHandler).handleException(isA(UnknownException.class));
     }
 
 
