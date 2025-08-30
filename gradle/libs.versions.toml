@@ -1,0 +1,30 @@
+[versions]
+assertj = "3.27.3"
+h2 = "2.3.232"
+jupiter = "5.13.3"
+mockito = "5.19.0"
+hibernate = "7.1.0.Final"
+logback = "1.5.18"
+hikaricp = "5.1.0"
+shadow = "9.1.0"
+jboss-logging = "3.6.1.Final"
+hibernate-models = "1.0.1"
+
+[libraries]
+assertj-core = { module = "org.assertj:assertj-core", version.ref = "assertj" }
+h2 = { module = "com.h2database:h2", version.ref = "h2" }
+junit-bom = { module = "org.junit:junit-bom", version.ref = "jupiter" }
+junit-jupiter = { module = "org.junit.jupiter:junit-jupiter" }
+junit-jupiter-api = { module = "org.junit.jupiter:junit-jupiter-api" }
+junit-jupiter-engine = { module = "org.junit.jupiter:junit-jupiter-engine" }
+junit-platform-launcher = { module = "org.junit.platform:junit-platform-launcher" }
+mockito-junit-jupiter = { module = "org.mockito:mockito-junit-jupiter", version.ref = "mockito" }
+hibernate = { module = "org.hibernate.orm:hibernate-core", version.ref = "hibernate" }
+logback = { module = "ch.qos.logback:logback-classic", version.ref = "logback" }
+hikaricp = { module = "com.zaxxer:HikariCP", version.ref = "hikaricp" }
+hibernate-hikaricp = { module = "org.hibernate.orm:hibernate-hikaricp", version.ref = "hibernate" }
+hibernate-models = { module = "org.hibernate.models:hibernate-models", version.ref = "hibernate-models" }
+jboss-logging = { module = "org.jboss.logging:jboss-logging", version.ref = "jboss-logging" }
+
+[plugins]
+shadow = { id = "com.gradleup.shadow", version.ref = "shadow" }
