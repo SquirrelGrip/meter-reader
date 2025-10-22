@@ -2,6 +2,7 @@ plugins {
     java
     jacoco
     alias(libs.plugins.shadow)
+    kotlin("jvm")
 }
 
 dependencies {
@@ -18,6 +19,7 @@ dependencies {
 
     testRuntimeOnly(libs.junit.jupiter.engine)
     testRuntimeOnly(libs.junit.platform.launcher)
+    implementation(kotlin("stdlib-jdk8"))
 }
 
 repositories {

@@ -14,12 +14,13 @@ Invalid date format
 # Assumptions:
 - If any error is found while processing the file, the entire file is discarded and the data within is rejected. No data would be committed to the database.
 - An empty line can be ignored.
-- One file processed at a time, eg. No concurrency concerns.
+- One file processed at a time, i.e. No concurrency concerns.
 - Each file contains exactly one 200 record for each NMI.
 - Each file contains exactly one 300 record for each NMI and Date.
+- Processing Time and Memory Usage is not critical, i.e. Garbage Collection is not a problem and there is no realtime requirements
 
 # What is the rationale for the technologies you have decided to use?
-There a number of way to solve this problem. 
+There a number of ways to solve this problem...
 
 ### Language Choice: Java
 Java is a well known language and it was chosen over others mainly because of its Object Oriented nature. While my first choice would be Kotlin, also a OO language, I did’t choose it as I made an assumption that the reviewer of this code may not be familiar with it and more likely that Java is more understood.
@@ -35,7 +36,7 @@ As stated, the files could be quite large, therefore IO Streaming is required. T
 A simple service is used to process each line, delegating to specific line processors to validate the current context and the line itself for data. Once each line is considered valid within the context of the file, the line is processed.
 
 ### Database Choice: H2
-I chose a database with some transaction control. Because of the assumption made earlier, it should be possible to write data to the database as we are processing, but if an error is found later in the file, that data should not be committed.
+I chose a database with some transaction control. Because of the assumptions made earlier, it should be possible to write data to the database as we are processing, but if an error is found later in the file, that data should not be committed.
 
 To store in the database, Hibernate was used. While this has some overhead in performance, and an opinionated right outer join model, given the time and object oriented nature, it made sense. JDBC template from Spring could be more performant, but also come with a larger overhead elsewhere.
 
