@@ -5,9 +5,9 @@ import com.github.squirrelgrip.meter.exception.UnknownException
 
 class DefaultErrorHandler : ErrorHandler {
     override fun handleException(exception: MeterReaderException?) {
-        if (exception == null) return
+        if (exception == null) {return}
         val session = exception.context.session
-        if (session.isTransactionActive()) {
+        if (session.isTransactionActive) {
             session.rollback()
         }
         if (exception is UnknownException) {

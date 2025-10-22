@@ -39,9 +39,8 @@ class MeterReaderServiceTest {
     }
 
     @Test
-    @Throws(Exception::class)
     fun process() {
-        `when`(session.isTransactionActive()).thenReturn(false)
+        `when`(session.isTransactionActive).thenReturn(false)
         val inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("sample.txt")!!
 
         val context: MeterContext = testSubject.createMeterContext("sample.txt")
@@ -51,14 +50,13 @@ class MeterReaderServiceTest {
         verify(session).close()
         verify(session).commit()
         verify(session, times(384)).save(any(MeterReading::class.java))
-        verify(session).isTransactionActive()
+        verify(session).isTransactionActive
         verifyNoMoreInteractions(session)
     }
 
     @Test
-    @Throws(Exception::class)
     fun process_Missing900Record() {
-        `when`(session.isTransactionActive()).thenReturn(true)
+        `when`(session.isTransactionActive).thenReturn(true)
         val inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("missing900.txt")!!
 
         val context: MeterContext = testSubject.createMeterContext("sample.txt")
@@ -68,7 +66,7 @@ class MeterReaderServiceTest {
         verify(session).close()
         verify(session).rollback()
         verify(session, times(384)).save(any(MeterReading::class.java))
-        verify(session).isTransactionActive()
+        verify(session).isTransactionActive
         verifyNoMoreInteractions(session)
     }
 
@@ -92,6 +90,6 @@ class MeterReaderServiceTest {
 
         testSubject.process(mockBufferedReader)
 
-        verify(errorHandler).handleException(isA(UnknownException::class.java))
+        verify(errorHandler).handleException(any(UnknownException::class.java))
     }
 }

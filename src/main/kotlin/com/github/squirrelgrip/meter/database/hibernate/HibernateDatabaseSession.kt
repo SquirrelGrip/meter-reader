@@ -24,13 +24,13 @@ class HibernateDatabaseSession(private val session: Session) : DatabaseSession {
         session.close()
     }
 
-    override fun save(meterReading: MeterReading) {
-        session.persist(meterReading)
+    override fun save(meterReading: MeterReading?) {
+        meterReading?.let { session.persist(it) }
     }
 
     override fun count(): Long =
         session.createQuery("select count(*) from MeterReading", Long::class.java).uniqueResult()
 
-    override fun isTransactionActive(): Boolean =
-        session.transaction.isActive
+    override val isTransactionActive: Boolean
+        get() = session.transaction.isActive
 }

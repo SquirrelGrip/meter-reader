@@ -54,7 +54,7 @@ class MeterReaderService(
             processException(e, currentContext)
         } finally {
             try {
-                if (currentContext.session.isTransactionActive()) {
+                if (currentContext.session.isTransactionActive) {
                     // Ensure rollback is performed by the service itself
                     currentContext.session.rollback()
                 }
